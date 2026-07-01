@@ -1,0 +1,17 @@
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- checkout: self
+
+- script: |
+    echo "Pipeline Started"
+    echo "Current Directory:"
+    pwd
+
+    echo "Files in Repository:"
+    ls -la
+  displayName: "Verify Repository Files"
