@@ -2,7 +2,7 @@ trigger:
 - main
 
 pool:
-  vmImage: ubuntu-latest
+  name: Default
 
 steps:
 - checkout: self
@@ -13,5 +13,5 @@ steps:
     pwd
 
     echo "Files in Repository:"
-    ls -la
+    dir
   displayName: "Verify Repository Files"
