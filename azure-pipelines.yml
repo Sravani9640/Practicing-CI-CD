@@ -9,9 +9,15 @@ steps:
 
 - script: |
     echo "Pipeline Started"
-    echo "Current Directory:"
-    pwd
-
-    echo "Files in Repository:"
     dir
-  displayName: "Verify Repository Files"
+  displayName: "Verify Repository"
+
+- script: |
+    echo "Copying index.html to EC2..."
+    scp -o StrictHostKeyChecking=no -i C:\Sravani\CICD-AWS\AWS-CICD.pem index.html ec2-user@51.20.78.56:/home/ec2-user/
+  displayName: "Copy Files to EC2"
+
+- script: |
+    echo "Deploying Website..."
+    ssh -o StrictHostKeyChecking=no -i C:\Sravani\CICD-AWS\AWS-CICD.pem ec2-user@51.20.78.56 "sudo cp /home/ec2-user/index.html /usr/share/nginx/html/index.html"
+  displayName: "Deploy to Nginx"
