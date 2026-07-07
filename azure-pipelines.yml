@@ -7,30 +7,70 @@ pool:
 variables:
 - group: 'First AWS-Deployment'
 
-steps:
+stages:
 
-- checkout: self
+# ===========================
+# Stage 1 - Build & Validation
+# ===========================
 
-- script: |
-    echo "Repository Files"
-    dir
-  displayName: "Verify Repository"
+- stage: Build
+  displayName: "Build & Validation"
 
-- script: |
-    echo "Testing SSH Connection..."
-    ssh -o StrictHostKeyChecking=no -i "C:\Sravani\CICD-AWS\AWS-CICD.pem" $(EC2_USER)@$(EC2_IP) "echo SSH Connection Successful"
-  displayName: "Test SSH"
+  jobs:
+  - job: BuildValidation
+    displayName: "Validate Source"
 
-- script: |
-    echo "Copying Website..."
-    scp -o StrictHostKeyChecking=no -i "C:\Sravani\CICD-AWS\AWS-CICD.pem" index.html $(EC2_USER)@$(EC2_IP):/home/ec2-user/
-  displayName: "Copy Website"
+    steps:
 
-- script: |
-    echo "Deploying Website..."
-    ssh -o StrictHostKeyChecking=no -i "C:\Sravani\CICD-AWS\AWS-CICD.pem" $(EC2_USER)@$(EC2_IP) "sudo cp /home/ec2-user/index.html $(WEB_PATH)/index.html"
-  displayName: "Deploy Website"
+    - checkout: self
 
-- script: |
-    echo "Deployment Completed Successfully"
-  displayName: "Deployment Status"
+    - script: |
+        echo "Checking repository..."
+        dir
+      displayName: "Checkout & Verify Files"
+
+    - script: |
+        if exist index.html (
+          echo "index.html found."
+        ) else (
+          echo "index.html not found."
+          exit /b 1
+        )
+      displayName: "Validate Application"
+
+    - script: |
+        echo "Testing SSH Connection..."
+        ssh -o StrictHostKeyChecking=no -i "C:\Sravani\CICD-AWS\AWS-CICD.pem" $(EC2_USER)@$(EC2_IP) "echo SSH Connection Successful"
+      displayName: "Validate SSH Connectivity"
+
+# ===========================
+# Stage 2 - Deploy
+# ===========================
+
+- stage: Deploy
+  displayName: "Deploy to AWS EC2"
+
+  dependsOn: Build
+  condition: succeeded()
+
+  jobs:
+  - job: DeployWebsite
+    displayName: "Deploy Website"
+
+    steps:
+
+    - checkout: self
+
+    - script: |
+        echo "Copying Website to EC2..."
+        scp -o StrictHostKeyChecking=no -i "C:\Sravani\CICD-AWS\AWS-CICD.pem" index.html $(EC2_USER)@$(EC2_IP):/home/ec2-user/
+      displayName: "Copy Website"
+
+    - script: |
+        echo "Deploying Website..."
+        ssh -o StrictHostKeyChecking=no -i "C:\Sravani\CICD-AWS\AWS-CICD.pem" $(EC2_USER)@$(EC2_IP) "sudo cp /home/ec2-user/index.html $(WEB_PATH)/index.html"
+      displayName: "Deploy Website"
+
+    - script: |
+        echo "Deployment Completed Successfully."
+      displayName: "Deployment Status"
