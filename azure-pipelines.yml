@@ -9,56 +9,28 @@ variables:
 
 steps:
 
-# Checkout source code
 - checkout: self
 
-# Download PEM file from Secure Files
-- task: DownloadSecureFile@1
-  name: pemFile
-  displayName: 'Download AWS PEM File'
-  inputs:
-    secureFile: 'AWS-CICD.pem'
-
-# Verify repository contents
 - script: |
-    echo "Repository files:"
+    echo "Repository Files"
     dir
-  displayName: 'Verify Repository'
+  displayName: "Verify Repository"
 
-# Display variables for debugging
 - script: |
-    echo "========== DEBUG =========="
-    echo "PEM File Path:"
-    echo "$(pemFile.secureFilePath)"
+    echo "Testing SSH Connection..."
+    ssh -o StrictHostKeyChecking=no -i "C:\Sravani\CICD-AWS\AWS-CICD.pem" $(EC2_USER)@$(EC2_IP) "echo SSH Connection Successful"
+  displayName: "Test SSH"
 
-    echo "EC2 User:"
-    echo "$(EC2_USER)"
-
-    echo "EC2 IP:"
-    echo "$(EC2_IP)"
-
-    echo "Web Path:"
-    echo "$(WEB_PATH)"
-
-    echo "==========================="
-  displayName: 'Display Variables'
-
-# Test SSH connection
 - script: |
-    ssh -v -o StrictHostKeyChecking=no -i "$(pemFile.secureFilePath)" $(EC2_USER)@$(EC2_IP) "echo SSH Connection Successful"
-  displayName: 'Test SSH Connection'
+    echo "Copying Website..."
+    scp -o StrictHostKeyChecking=no -i "C:\Sravani\CICD-AWS\AWS-CICD.pem" index.html $(EC2_USER)@$(EC2_IP):/home/ec2-user/
+  displayName: "Copy Website"
 
-# Copy website to EC2
 - script: |
-    scp -v -o StrictHostKeyChecking=no -i "$(pemFile.secureFilePath)" index.html $(EC2_USER)@$(EC2_IP):/home/ec2-user/
-  displayName: 'Copy Website to EC2'
+    echo "Deploying Website..."
+    ssh -o StrictHostKeyChecking=no -i "C:\Sravani\CICD-AWS\AWS-CICD.pem" $(EC2_USER)@$(EC2_IP) "sudo cp /home/ec2-user/index.html $(WEB_PATH)/index.html"
+  displayName: "Deploy Website"
 
-# Deploy website
 - script: |
-    ssh -v -o StrictHostKeyChecking=no -i "$(pemFile.secureFilePath)" $(EC2_USER)@$(EC2_IP) "sudo cp /home/ec2-user/index.html $(WEB_PATH)/index.html"
-  displayName: 'Deploy Website'
-
-# Verify deployment
-- script: |
-    ssh -o StrictHostKeyChecking=no -i "$(pemFile.secureFilePath)" $(EC2_USER)@$(EC2_IP) "ls -l $(WEB_PATH)"
-  displayName: 'Verify Deployment'
+    echo "Deployment Completed Successfully"
+  displayName: "Deployment Status"
