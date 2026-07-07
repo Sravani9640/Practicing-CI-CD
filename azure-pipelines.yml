@@ -4,20 +4,30 @@ trigger:
 pool:
   name: Default
 
+variables:
+- group: First AWS-Deployment
+
 steps:
+
 - checkout: self
 
+- task: DownloadSecureFile@1
+  name: pemFile
+  displayName: "Download AWS PEM File"
+  inputs:
+    secureFile: 'AWS-CICD.pem'
+
 - script: |
-    echo "Pipeline Started"
+    echo "Repository Files"
     dir
   displayName: "Verify Repository"
 
 - script: |
-    echo "Copying index.html to EC2..."
-    scp -o StrictHostKeyChecking=no -i C:\Sravani\CICD-AWS\AWS-CICD.pem index.html ec2-user@51.20.78.56:/home/ec2-user/
-  displayName: "Copy Files to EC2"
+    echo "Copying website to EC2..."
+    scp -o StrictHostKeyChecking=no -i "$(pemFile.secureFilePath)" index.html $(EC2_USER)@$(EC2_IP):/home/ec2-user/
+  displayName: "Copy Website"
 
 - script: |
-    echo "Deploying Website..."
-    ssh -o StrictHostKeyChecking=no -i C:\Sravani\CICD-AWS\AWS-CICD.pem ec2-user@51.20.78.56 "sudo cp /home/ec2-user/index.html /usr/share/nginx/html/index.html"
-  displayName: "Deploy to Nginx"
+    echo "Deploying website..."
+    ssh -o StrictHostKeyChecking=no -i "$(pemFile.secureFilePath)" $(EC2_USER)@$(EC2_IP) "sudo cp /home/ec2-user/index.html $(WEB_PATH)/index.html"
+  displayName: "Deploy Website"
