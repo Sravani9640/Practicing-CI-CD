@@ -174,7 +174,11 @@ Through this project, I gained hands-on experience with:
 - Automated Application Deployment
 
 ---
+Summary
 
+You can explain the project like this:
+
+"I implemented an end-to-end CI/CD pipeline using GitHub, Azure DevOps, a self-hosted Windows agent, and AWS EC2. The pipeline is automatically triggered when changes are pushed to the main branch. It consists of two stages: Build & Validation and Deploy. In the Build stage, the pipeline checks out the source code, verifies the required files, and validates SSH connectivity to the EC2 instance. In the Deploy stage, it securely copies the application using SCP and deploys it to the Nginx web server using SSH. I used Azure DevOps Variable Groups to manage deployment configuration without hardcoding environment-specific values."
 
 ---
 
