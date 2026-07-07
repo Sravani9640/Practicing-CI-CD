@@ -1,53 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Azure DevOps CI/CD Demo</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            text-align: center;
-            margin-top: 100px;
-        }
-        .container {
-            background: white;
-            padding: 30px;
-            width: 600px;
-            margin: auto;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px gray;
-        }
-        h1 {
-            color: #0078D4;
-        }
-        p {
-            font-size: 18px;
-        }
-        .success {
-            color: green;
-            font-weight: bold;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tech Solutions</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+    color:#333;
+}
+
+header{
+    background:#0b3d91;
+    color:white;
+    padding:20px 60px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+header h2{
+    font-size:28px;
+}
+
+nav a{
+    color:white;
+    text-decoration:none;
+    margin-left:25px;
+    font-weight:bold;
+}
+
+.hero{
+    background:linear-gradient(rgba(0,0,0,.5),rgba(0,0,0,.5)),
+    url('https://images.unsplash.com/photo-1519389950473-47ba0277781c');
+    background-size:cover;
+    background-position:center;
+    height:500px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    color:white;
+}
+
+.hero h1{
+    font-size:50px;
+}
+
+.hero p{
+    margin:20px 0;
+    font-size:20px;
+}
+
+.btn{
+    background:#0078D4;
+    color:white;
+    padding:12px 25px;
+    text-decoration:none;
+    border-radius:5px;
+}
+
+section{
+    padding:60px 80px;
+}
+
+h2{
+    text-align:center;
+    margin-bottom:20px;
+    color:#0b3d91;
+}
+
+.services{
+    display:flex;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.card{
+    background:white;
+    padding:25px;
+    width:30%;
+    min-width:250px;
+    border-radius:10px;
+    box-shadow:0 4px 10px rgba(0,0,0,.15);
+}
+
+.card h3{
+    color:#0078D4;
+    margin-bottom:15px;
+}
+
+.tech{
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:15px;
+}
+
+.tech span{
+    background:#0078D4;
+    color:white;
+    padding:10px 18px;
+    border-radius:20px;
+}
+
+footer{
+    background:#0b3d91;
+    color:white;
+    text-align:center;
+    padding:20px;
+}
+</style>
+
 </head>
+
 <body>
 
-<div class="container">
-    <h1>🚀 Azure DevOps CI/CD Demo</h1>
+<header>
+<h2>Tech Solutions</h2>
 
-    <p>This website was deployed automatically using:</p>
+<nav>
+<a href="#">Home</a>
+<a href="#">About</a>
+<a href="#">Services</a>
+<a href="#">Contact</a>
+</nav>
+</header>
 
-    <p>✅ GitHub</p>
-    <p>✅ Azure DevOps Pipeline</p>
-    <p>✅ AWS EC2</p>
-    <h1>Deployment Successful - Version 2 🚀</h1>
-<p>Deployed automatically using Azure DevOps Pipeline.</p>
+<section class="hero">
 
-    <p class="success">
-        Deployment Successful!
-    </p>
+<div>
+<h1>Empowering Digital Transformation</h1>
+
+<p>
+Delivering Cloud, DevOps, AI and Enterprise Technology Solutions
+for businesses worldwide.
+</p>
+
+<a href="#" class="btn">Explore Services</a>
+
 </div>
+
+</section>
+
+<section>
+
+<h2>About Us</h2>
+
+<p style="text-align:center;max-width:900px;margin:auto;font-size:18px;">
+We help organizations modernize their IT landscape through innovative cloud
+solutions, application services, DevOps automation, cybersecurity, and
+digital transformation. Our team focuses on delivering secure, scalable,
+and high-quality technology solutions that accelerate business growth.
+</p>
+
+</section>
+
+<section>
+
+<h2>Our Services</h2>
+
+<div class="services">
+
+<div class="card">
+<h3>Cloud Solutions</h3>
+<p>Cloud migration, infrastructure modernization, and managed cloud services.</p>
+</div>
+
+<div class="card">
+<h3>DevOps</h3>
+<p>CI/CD pipelines, deployment automation, monitoring, and release management.</p>
+</div>
+
+<div class="card">
+<h3>Application Services</h3>
+<p>Application development, modernization, production support, and maintenance.</p>
+</div>
+
+</div>
+
+</section>
+
+<section>
+
+<h2>Technology Expertise</h2>
+
+<div class="tech">
+
+<span>Azure</span>
+<span>AWS</span>
+<span>Azure DevOps</span>
+<span>GitHub</span>
+<span>Docker</span>
+<span>Kubernetes</span>
+<span>Linux</span>
+<span>Python</span>
+<span>.NET</span>
+<span>SQL Server</span>
+
+</div>
+
+</section>
+
+<section>
+
+<h2>Why Choose Us?</h2>
+
+<ul style="max-width:700px;margin:auto;font-size:18px;line-height:2;">
+<li>✔ Enterprise Technology Expertise</li>
+<li>✔ Cloud-First Strategy</li>
+<li>✔ Agile Delivery</li>
+<li>✔ DevOps Best Practices</li>
+<li>✔ Secure Digital Solutions</li>
+<li>✔ 24×7 Support</li>
+</ul>
+
+</section>
+
+<footer>
+
+<h3>Tech Solutions</h3>
+
+<p>Cloud | DevOps | Cybersecurity | AI | Digital Transformation</p>
+
+<br>
+
+<p>© 2026 Tech Solutions. All Rights Reserved.</p>
+
+</footer>
 
 </body>
 </html>
