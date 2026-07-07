@@ -5,7 +5,7 @@ pool:
   name: Default
 
 variables:
-- group: First AWS-Deployment
+- group: 'First AWS-Deployment'
 
 steps:
 
@@ -18,16 +18,20 @@ steps:
     secureFile: 'AWS-CICD.pem'
 
 - script: |
-    echo "Repository Files"
+    echo "Repository Files:"
     dir
   displayName: "Verify Repository"
 
 - script: |
-    echo "Copying website to EC2..."
-    scp -o StrictHostKeyChecking=no -i "$(pemFile.secureFilePath)" index.html $(EC2_USER)@$(EC2_IP):/home/ec2-user/
+    echo "===== Deployment Details ====="
+    echo "PEM File: $(pemFile.secureFilePath)"
+    echo "EC2 User: $(EC2_USER)"
+    echo "EC2 IP: $(EC2_IP)"
+    echo "=============================="
+
+    scp -v -o StrictHostKeyChecking=no -i "$(pemFile.secureFilePath)" index.html $(EC2_USER)@$(EC2_IP):/home/ec2-user/
   displayName: "Copy Website"
 
 - script: |
-    echo "Deploying website..."
-    ssh -o StrictHostKeyChecking=no -i "$(pemFile.secureFilePath)" $(EC2_USER)@$(EC2_IP) "sudo cp /home/ec2-user/index.html $(WEB_PATH)/index.html"
+    ssh -v -o StrictHostKeyChecking=no -i "$(pemFile.secureFilePath)" $(EC2_USER)@$(EC2_IP) "sudo cp /home/ec2-user/index.html $(WEB_PATH)/index.html"
   displayName: "Deploy Website"
